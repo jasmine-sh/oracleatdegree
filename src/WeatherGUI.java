@@ -1,12 +1,17 @@
+import netscape.javascript.JSObject;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class WeatherGUI extends JFrame
 {
+    private JSObject weatherData;
     public WeatherGUI()
     {
         super("Oracle at Degree");
@@ -35,7 +40,55 @@ public class WeatherGUI extends JFrame
         JButton searchButton = new JButton(loadImage("src/assets/search.png"));
         searchButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         searchButton.setBounds(375, 13, 47, 45);
+        searchButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                // get location from user
+                String locationInput = searchTextField.getText();
+                // validate location input (ignore an all-whitespace search)
+                if(locationInput.replaceAll("\\s", "").length() <= 0)
+                    return;
+            }
+
+            //retrieve weather data
+            // weatherData = OracleApp.getWeatherData(userInput);
+        });
         add(searchButton);
+
+        String[] months = {"01 - January", "02 - February", "03 - March", "04 - April", "05 - May", "06 - June",
+                "07 - July", "08 - August", "09 - September", "10 - October", "11 - November", "12 - December"};
+        JComboBox<String> monthSelect = new JComboBox<String>(months);
+        monthSelect.setBounds(50, 100, 150, 54);
+        monthSelect.setFont(new Font("Dialog", Font.PLAIN, 20));
+        add(monthSelect);
+        monthSelect.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                 String monthInput = (String) monthSelect.getSelectedItem();
+            }
+        });
+
+        String[] days = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
+                "16", "17", "18", "19", "20", "21", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+        JComboBox<String> daySelect = new JComboBox<String>(days);
+        daySelect.setBounds(250, 100, 150, 54);
+        daySelect.setFont(new Font("Dialog", Font.PLAIN, 20));
+        add(daySelect);
+        daySelect.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String dayInput = (String) daySelect.getSelectedItem();
+                System.out.println(dayInput);
+            }
+        });
+
+
 
         // weather conditions image
         JLabel conditionsImage = new JLabel(loadImage("src/assets/cloudy.png"));

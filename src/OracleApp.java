@@ -6,6 +6,8 @@ import org.json.simple.parser.JSONParser;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class OracleApp
@@ -21,7 +23,7 @@ public class OracleApp
         double latitude = (double) location.get("latitude");
         double longitude = (double) location.get("longitude");
 
-        // build api request with coordinates to acess historical data
+        // build api request with coordinates to access historical data
         String urlString = "https://historical-forecast-api.open-meteo.com/v1/forecast?" + "latitude=" + 52.52 +"&longitude=" + 13.41 + "&start_date=2025-04-20&end_date=2025-05-04&hourly=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m,precipitation_probability,precipitation";
 
         try
@@ -120,7 +122,7 @@ public class OracleApp
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-            // set reuest method to get
+            // set request method to get
             conn.setRequestMethod("GET");
 
             //connect to API
@@ -135,4 +137,20 @@ public class OracleApp
         System.out.println("2");
         return null;
     }
+    private static int findIndexOfRequestedDay (JSONArray dayList)
+    {
+        String currentDay = getCurrentDay();
+        return 0;
+    }
+
+    public static String getCurrentDay()
+    {
+        //TODO: take out localdatetime if not needed, change to user's inputted date/time
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        // format date in question to align with API
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH':00'");
+
+        return currentDateTime.format(formatter);
+    }
+
 }

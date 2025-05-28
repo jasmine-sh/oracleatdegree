@@ -12,7 +12,7 @@ public class AppLauncher
             {
                 new WeatherGUI().setVisible(true);
                 System.out.println(OracleApp.getLocationData("Tokyo"));
-
+                System.out.println(OracleApp.getCurrentDay());
             }
         });
     }
