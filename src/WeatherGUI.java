@@ -8,10 +8,14 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 public class WeatherGUI extends JFrame
 {
-    private JSObject weatherData;
+    //todo: getters/setters
+    public String monthInput;
+    public String dayInput;
+    // private JSObject weatherData;
     public WeatherGUI()
     {
         super("Oracle at Degree");
@@ -68,12 +72,18 @@ public class WeatherGUI extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                 String monthInput = (String) monthSelect.getSelectedItem();
+                monthInput = (String) monthSelect.getSelectedItem();
             }
         });
 
-        String[] days = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15",
-                "16", "17", "18", "19", "20", "21", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+
+        // TODO: keep as string and cast to int here? or start as int and cast to string for combobox later?
+        String[] days = new String[31];
+        for (int i=0; i<31; i++)
+        {
+            days[i] = String.valueOf(i+1);
+        }
+
         JComboBox<String> daySelect = new JComboBox<String>(days);
         daySelect.setBounds(250, 100, 150, 54);
         daySelect.setFont(new Font("Dialog", Font.PLAIN, 20));
@@ -83,8 +93,8 @@ public class WeatherGUI extends JFrame
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                String dayInput = (String) daySelect.getSelectedItem();
-                System.out.println(dayInput);
+                dayInput = (String) daySelect.getSelectedItem();
+                //System.out.println(dayInput);
             }
         });
 

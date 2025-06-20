@@ -12,9 +12,12 @@ import java.util.Scanner;
 
 public class OracleApp
 {
+
     // fetch weather data at given location
-    public static JSObject getWeatherData(String locationName)
+    public static JSONObject getWeatherData(String locationName)
     {
+
+
         // get location coords using geolocation API
         JSONArray locationData = getLocationData(locationName);
 
@@ -24,13 +27,18 @@ public class OracleApp
         double longitude = (double) location.get("longitude");
 
         // build api request with coordinates to access historical data
-        String urlString = "https://historical-forecast-api.open-meteo.com/v1/forecast?" + "latitude=" + 52.52 +"&longitude=" + 13.41 + "&start_date=2025-04-20&end_date=2025-05-04&hourly=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m,precipitation_probability,precipitation";
+        // testing for localhost, original url: "https://historical-forecast-api.open-meteo.com/v1/forecast?" + "latitude=" + 52.52+"&longitude=" + 13.41 + "&start_date=2025-04-20&end_date=2025-05-04&hourly=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m,precipitation_probability,precipitation";
+        String urlString = "http://localhost:8080/longbeachtest.json";
+                //"/v1/forecast?" + "latitude=" + 52.52
+                //+"&longitude=" + 13.41 + "&start_date=2025-04-20&end_date=2025-05-04&hourly=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m,precipitation_probability,precipitation";
+
+        System.out.println("URL: " + urlString);
 
         try
         {
             // call api, get response
             HttpURLConnection conn = fetchApiResponse(urlString);
-
+            // System.out.println(conn.getResponseCode());
             if (conn.getResponseCode() != 200)
             {
                 System.out.println("Error: Could not connect to API");
@@ -43,6 +51,7 @@ public class OracleApp
             {
                 resultJson.append(scanner.nextLine());
             }
+            System.out.println(resultJson);
             // housekeeping (close scanner and url connection)
             scanner.close();
             conn.disconnect();
@@ -50,10 +59,12 @@ public class OracleApp
             // parse data
             JSONParser parser = new JSONParser();
             JSONObject resultJsonObj = (JSONObject) parser.parse(String.valueOf(resultJson));
-
+            System.out.println(resultJsonObj);
             // retrieve hourly data
             JSONObject hourly = (JSONObject) resultJsonObj.get("hourly");
             JSONArray time = (JSONArray) hourly.get("time");
+
+            return resultJsonObj;
 
         }catch (Exception e)
         {
