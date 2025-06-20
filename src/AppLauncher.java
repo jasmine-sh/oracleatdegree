@@ -10,8 +10,9 @@ public class AppLauncher
             public void run()
             // displays gui
             {
-                new WeatherGUI().setVisible(true);
-                System.out.println(OracleApp.getLocationData("Tokyo"));
+                //Object WeatherGUI = new WeatherGUI().setVisible(true);
+                //System.out.println(OracleApp.getLocationData("Tokyo"));
+                System.out.println(OracleApp.getWeatherData("Long Beach"));
                 System.out.println(OracleApp.getCurrentDay());
             }
         });
